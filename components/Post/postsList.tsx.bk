@@ -1,0 +1,107 @@
+import Image from 'next/image'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../store'
+import { PencilAltIcon, SearchIcon } from '@heroicons/react/solid'
+import SinglePost from './singlePost'
+// import ResizeObserver from '../../custom-libs/rc-resize-observer/lib'
+// import Resizable from 're-resizable'
+// import ResizeObserver from 'react-resize-observer'
+import ResizePost from './resizePost'
+import { VariableSizeList as List } from 'react-window'
+import useResizeObserver from '@react-hook/resize-observer'
+import AutoSizer from 'react-virtualized-auto-sizer'
+
+const mockPosts = {
+  id: '3356368097754',
+  postType: 'post',
+  user: {
+    userName: 'News Update',
+    userId: '99123223432',
+    userAvatar: 'test',
+    userSlug: '@newsofficial',
+  },
+  counts: {
+    like: 123,
+    comments: 342,
+    repost: 34,
+  },
+  post: {
+    postContent:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    postDate: '2021-12-25T10:05:46.384Z',
+  },
+  isLiked: false,
+}
+
+const mockData = new Array(10).fill(1).map((v) => mockPosts)
+
+const PostList = ({ props }: any) => {
+  // Get theme from redux store.
+  // const theme = useSelector((state:RootState) => state.theme)
+  const ref = useRef<HTMLDivElement>(null)
+  const listRef: any = useRef({})
+  const rowHeights: any = useRef({})
+  // const [width, setWidth] = useState(0)
+  // const [height, setHeight] = useState(0)
+
+  useEffect(() => {
+    // if (ref.current && process.browser) {
+    //   setWidth(ref.current.offsetWidth)
+    // }
+    // if (process.browser) {
+    //   setHeight(Math.abs(window.outerHeight - 107))
+    // }
+  }, [])
+
+  // Work on each row.
+  function RowRenderer({ index, style }: any) {
+    const rowRef: any = useRef({})
+    const data = mockData[index]
+    // const content = isScrolling ? null : <SinglePost data={data} />
+    const postIndex = `post-${index}-${data.id}`
+    const content = <SinglePost data={data} postIndex={postIndex} initialShortPost={true}/>
+
+    return (
+      <div style={style} ref={rowRef}>
+        <ResizePost
+          setRowHeight={setRowHeight}
+          rowRef={rowRef}
+          rowIndex={index}
+        >
+          {content}
+        </ResizePost>
+      </div>
+    )
+  }
+
+  const getRowHeight = (index: string | number) => {
+    const getHeight: number = rowHeights.current[index] || 1
+    return getHeight
+  }
+
+  const setRowHeight = (index: any, size: any) => {
+    listRef.current.resetAfterIndex(0)
+    rowHeights.current = { ...rowHeights.current, [index]: size }
+  }
+
+  return (
+    <div id="post-list-infinity" className="w-full h-full" ref={ref}>
+      {/* PostList */}
+      <AutoSizer>
+        {({ height, width }: any) => (
+          <List
+            ref={listRef}
+            height={height}
+            itemCount={mockData.length}
+            itemSize={getRowHeight}
+            width={width}
+          >
+            {RowRenderer}
+          </List>
+        )}
+      </AutoSizer>
+    </div>
+  )
+}
+export default React.memo(PostList)

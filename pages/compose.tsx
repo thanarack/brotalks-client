@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/dist/shared/lib/router/router'
 import { i8keyLoader } from '../utilize/i8keyLoader'
-import Home from '../components/Pages/Home'
+import Compose from '../components/Pages/Compose'
 
 /**
  * Initial props of page.
@@ -15,4 +15,4 @@ export const getStaticProps = async (props: AppProps) => {
   }
 }
 
-export default Home
+export default Compose
