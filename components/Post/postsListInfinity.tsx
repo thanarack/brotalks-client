@@ -1,9 +1,9 @@
 import Image from 'next/image'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import { PencilAltIcon, SearchIcon } from '@heroicons/react/solid'
-import SinglePost from './singlePost'
+import SinglePost, { SinglePostDataInterface } from './singlePost'
 // import ResizeObserver from '../../custom-libs/rc-resize-observer/lib'
 // import Resizable from 're-resizable'
 // import ResizeObserver from 'react-resize-observer'
@@ -14,6 +14,7 @@ import useResizeObserver from '@react-hook/resize-observer'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import InfiniteLoader from 'react-window-infinite-loader'
 import LoadingPost from './loadPost'
+import { onFullPostIndex } from '../../store/reducers/postsReducer'
 
 interface PostsListInfinityInterface {
   hasNextPage: boolean
@@ -27,11 +28,14 @@ const PostsListInfinity = (props: PostsListInfinityInterface) => {
   // console.log(hasNextPage, isNextPageLoading, items)
   // Get theme from redux store.
   // const theme = useSelector((state:RootState) => state.theme)
+  const dispatch = useDispatch()
+  const store = useSelector((state: RootState) => state)
   const ref = useRef<HTMLDivElement>(null)
   const listRef: any = useRef({})
   const infiniteLoaderRef = useRef(null)
   const hasMountedRef = useRef(false)
-  const [fullPostIndex, setFullPostIndex] = useState<Array<any>>([])
+  const fullPostIndex = store.posts.fullPostIndex
+  // const [fullPostIndex, setFullPostIndex] = useState<Array<any>>([])
   const rowHeights: any = useRef({})
   const [width, setWidth] = useState(0)
   const [height, setHeight] = useState(0)
@@ -67,24 +71,18 @@ const PostsListInfinity = (props: PostsListInfinityInterface) => {
     }
   }
 
-  const addFullPostIndex = (index: any) => {
-    const current: Array<any> = fullPostIndex || []
-    if (!current.find((v) => v === index)) {
-      current.push(index)
-    }
-    setFullPostIndex(current)
-    return
-  }
-
   // Work on each row.
   function RowRenderer({ index, style }: any) {
     let content
     const rowRef: any = useRef({})
-    const data = items[index]
+    const data: SinglePostDataInterface = items[index]
     let isShortPost: boolean = true
 
     if (isItemLoaded(index) && data) {
-      if (fullPostIndex.length && fullPostIndex.find((v) => v === index) >= 0) {
+      if (
+        fullPostIndex.length &&
+        fullPostIndex.findIndex((v: any) => v === data.id) >= 0
+      ) {
         isShortPost = false
       }
       content = (
@@ -92,7 +90,6 @@ const PostsListInfinity = (props: PostsListInfinityInterface) => {
           data={data}
           postIndex={index}
           postStyle={style}
-          addFullPostIndex={addFullPostIndex}
           initialShortPost={isShortPost}
         />
       )

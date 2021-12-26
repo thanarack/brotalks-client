@@ -7,7 +7,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import {
   AnnotationIcon,
@@ -21,35 +21,37 @@ import classNames from 'classnames'
 import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { onFullPostIndex } from '../../store/reducers/postsReducer'
 
-interface SinglePostInterface {
+export interface SinglePostInterface {
   postIndex: string | number
-  data: {
-    id: string
-    postType: string
-    post: {
-      postContent: string
-      postDate: string
-    }
-    user: {
-      userName: string
-      userId: string
-      userSlug: string
-      userAvatar: string
-    }
-    counts: {
-      like: number
-      repost: number
-      comments: number
-      viewer?: number
-    }
-    isLiked: boolean
-  }
+  data: SinglePostDataInterface
   postStyle?: {
     height: number
   }
-  addFullPostIndex?: Function
   initialShortPost: boolean
+}
+
+export interface SinglePostDataInterface {
+  id: string
+  postType: string
+  post: {
+    postContent: string
+    postDate: string
+  }
+  user: {
+    userName: string
+    userId: string
+    userSlug: string
+    userAvatar: string
+  }
+  counts: {
+    like: number
+    repost: number
+    comments: number
+    viewer?: number
+  }
+  isLiked: boolean
 }
 
 /**
@@ -63,9 +65,9 @@ interface SinglePostInterface {
  * )
  */
 const SinglePost = (props: SinglePostInterface) => {
+  const dispatch = useDispatch()
   const { t } = useTranslation('common')
-  const { data, postIndex, postStyle, addFullPostIndex, initialShortPost } =
-    props
+  const { data, postIndex, postStyle, initialShortPost } = props
   // const {postType} = props
   // Get theme from redux store.
   // const theme = useSelector((state:RootState) => state.theme)
@@ -111,7 +113,6 @@ const SinglePost = (props: SinglePostInterface) => {
     if (!fullPost) {
       setFullPost(data.post.postContent)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   /**
@@ -125,9 +126,7 @@ const SinglePost = (props: SinglePostInterface) => {
 
       // }
       setIsShortPost(false)
-      if (addFullPostIndex) {
-        addFullPostIndex(postIndex)
-      }
+      dispatch(onFullPostIndex(data.id))
     }
     return
   }

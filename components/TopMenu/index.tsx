@@ -1,10 +1,11 @@
 import Image from 'next/image'
 import React, { useMemo, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import { PencilAltIcon, SearchIcon } from '@heroicons/react/solid'
 import ScrollContainer from 'react-indiana-drag-scroll'
 import classnames from 'classnames'
+import { changeTab } from '../../store/reducers/topMenuReducer'
 
 const topMenuList = [
   { id: 1, title: 'เป็นที่นิยม' },
@@ -15,9 +16,8 @@ const topMenuList = [
 
 const TopMenu = ({ props }: any) => {
   // Get theme from redux store.
-  // const theme = useSelector((state:RootState) => state.theme)
-
-  const [itemActive, setItemActive] = useState(1)
+  const topMenuStore = useSelector((state: RootState) => state.topMenu)
+  const dispatch = useDispatch()
 
   return (
     <div className="w-full bg-slate-100 pb-2 px-4 pt-1 border-b border-slate-200 static">
@@ -27,13 +27,13 @@ const TopMenu = ({ props }: any) => {
             <div key={index} className="flex flex-col">
               <div
                 className={classnames('text-base text-gray-400', {
-                  active: itemActive === slideContent.id,
+                  active: topMenuStore.activeTab === slideContent.id,
                 })}
-                onClick={setItemActive.bind(this, slideContent.id)}
+                onClick={() => dispatch(changeTab(slideContent.id))}
               >
                 {slideContent.title}
               </div>
-              {itemActive === slideContent.id && (
+              {topMenuStore.activeTab === slideContent.id && (
                 <div className="h w-4 border-t-2 border-gray-900 self-center" />
               )}
             </div>

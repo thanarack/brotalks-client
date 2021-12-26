@@ -13,7 +13,9 @@ const Navbar = ({ props }: any) => {
     <div className="fixed w-full px-4 py-4 flex flex-row space-x-4 items-center bg-slate-100 top-0 z-20">
       <div className="h-8">
         <Link href="/" passHref>
-          <a><Image src="/logo-1.png" width={32} height={32} alt="logo" /></a>
+          <a>
+            <Image src="/logo-1.png" width={32} height={32} alt="logo" />
+          </a>
         </Link>
       </div>
       <div className="grow relative">
@@ -21,7 +23,11 @@ const Navbar = ({ props }: any) => {
         <input className="w-full pl-9 bg-slate-300 rounded-full m-0 h-8 outline-none" />
       </div>
       <div>
-        <PencilAltIcon className="h-6 w-6 text-gray-800" />
+        <Link href="/compose" passHref>
+          <a>
+            <PencilAltIcon className="h-6 w-6 text-gray-800" />
+          </a>
+        </Link>
       </div>
     </div>
   )

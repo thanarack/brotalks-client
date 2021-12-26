@@ -11,9 +11,15 @@ import TopMenu from '../../components/TopMenu'
 import { RootState } from '../../store'
 import { changeTheme } from '../../store/reducers/themeReducer'
 import PostsListInfinity from '../Post/postsListInfinity'
+import {
+  onHasNextPage,
+  onIsNextPageLoading,
+  onSetItems,
+} from '../../store/reducers/postsReducer'
+import { generateIds } from '../../utilize/generateIds'
 
 const mockPosts = {
-  id: '3356368097754',
+  id: '1',
   postType: 'post',
   user: {
     userName: 'News Update',
@@ -35,24 +41,34 @@ const mockPosts = {
 }
 
 const Home: NextPage = (props) => {
-  const theme = useSelector((state: RootState) => state.theme)
-  const [items, setItems] = useState([])
-  const [hasNextPage, setHasNextPage] = useState(true)
-  const [isNextPageLoading, setIsNextPageLoading] = useState(false)
+  const dispatch = useDispatch()
+  const store = useSelector((state: RootState) => state)
+  const theme = store.theme
+  const postsStore = store.posts
+  const topMenuStore = store.topMenu
+  const items = postsStore.items
 
   // Callback when scroll to bottom.
   const loadNextPage = (startPage: number, endPage: number) => {
     // console.log('loadNextPage', startPage, endPage)
     setTimeout(() => {
-      setHasNextPage(items.length < 50)
-      setIsNextPageLoading(false)
-      const pollData: any = new Array(10)
-        .fill(items.length)
-        .map((v) => (v = mockPosts))
+      dispatch(onHasNextPage(items.length < 50))
+      dispatch(onIsNextPageLoading(false))
+      const pollData: any = new Array(10).fill(items.length).map((v) => {
+        const createData = { ...mockPosts }
+        createData.id = generateIds()
+        v = createData
+        return v
+      })
       const pollDataMerge = [...items].concat(pollData)
-      setItems(pollDataMerge)
+      dispatch(onSetItems(pollDataMerge))
     }, 500)
   }
+
+  // Handle when tab change
+  useEffect(() => {
+    console.log('Tab changed.')
+  }, [topMenuStore.activeTab])
 
   return (
     <MainLayout {...props}>
@@ -71,8 +87,8 @@ const Home: NextPage = (props) => {
         <div id="posts-content" className="posts-content z-0">
           {/* <PostsList /> */}
           <PostsListInfinity
-            hasNextPage={hasNextPage}
-            isNextPageLoading={isNextPageLoading}
+            hasNextPage={postsStore.hasNextPage}
+            isNextPageLoading={postsStore.isNextPageLoading}
             items={items}
             loadNextPage={loadNextPage}
           />
