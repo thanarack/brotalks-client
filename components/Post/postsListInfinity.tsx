@@ -94,11 +94,7 @@ const PostsListInfinity = (props: PostsListInfinityInterface) => {
         />
       )
     } else {
-      content = (
-        <div className="py-4 px-4">
-          <LoadingPost />
-        </div>
-      )
+      content = <LoadingPost className="py-4 px-4" />
     }
 
     return (

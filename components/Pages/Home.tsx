@@ -17,6 +17,8 @@ import {
   onSetItems,
 } from '../../store/reducers/postsReducer'
 import { generateIds } from '../../utilize/generateIds'
+import SliderMenu from '../Navbar/SliderMenu'
+import MainSection from '../Layout/MainSection'
 
 const mockPosts = {
   id: '1',
@@ -47,6 +49,12 @@ const Home: NextPage = (props) => {
   const postsStore = store.posts
   const topMenuStore = store.topMenu
   const items = postsStore.items
+  const route = useRouter()
+
+  if (process.browser) {
+    route.prefetch('/compose')
+    route.prefetch('/post')
+  }
 
   // Callback when scroll to bottom.
   const loadNextPage = (startPage: number, endPage: number) => {
@@ -62,7 +70,7 @@ const Home: NextPage = (props) => {
       })
       const pollDataMerge = [...items].concat(pollData)
       dispatch(onSetItems(pollDataMerge))
-    }, 500)
+    }, 2000)
   }
 
   // Handle when tab change
@@ -79,13 +87,11 @@ const Home: NextPage = (props) => {
       </Head>
       <div className="w-full">
         {theme.isNavbar && <Navbar />}
-        <div className="mt-16">
-          <TopMenu />
-        </div>
+        <TopMenu className="mt-16" />
       </div>
-      <main>
+      <MainSection>
         <div id="posts-content" className="posts-content z-0">
-          {/* <PostsList /> */}
+          {/* Start show feed here. */}
           <PostsListInfinity
             hasNextPage={postsStore.hasNextPage}
             isNextPageLoading={postsStore.isNextPageLoading}
@@ -93,7 +99,7 @@ const Home: NextPage = (props) => {
             loadNextPage={loadNextPage}
           />
         </div>
-      </main>
+      </MainSection>
     </MainLayout>
   )
 }

@@ -1,11 +1,19 @@
 import Image from 'next/image'
 import React, { useMemo } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store'
-import { PencilAltIcon, SearchIcon } from '@heroicons/react/outline'
+import {
+  PencilAltIcon,
+  SearchIcon,
+  UserCircleIcon,
+} from '@heroicons/react/outline'
 import Link from 'next/link'
+import { onShowSlide } from '../../store/reducers/topMenuReducer'
 
 const Navbar = ({ props }: any) => {
+  const store = useSelector((state: RootState) => state)
+  const topMenu = store.topMenu
+  const dispatch = useDispatch()
   // Get theme from redux store.
   // const theme = useSelector((state:RootState) => state.theme)
 
@@ -28,6 +36,9 @@ const Navbar = ({ props }: any) => {
             <PencilAltIcon className="h-6 w-6 text-gray-800" />
           </a>
         </Link>
+      </div>
+      <div onClick={() => dispatch(onShowSlide(true))}>
+        <UserCircleIcon className="h-6 w-6 text-gray-800" />
       </div>
     </div>
   )

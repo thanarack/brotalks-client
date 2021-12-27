@@ -1,7 +1,12 @@
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import SliderMenu from "../Navbar/SliderMenu"
 
-const MainLayout = ({ children,x }: any) => {
-  return <div>{children}</div>
+const MainLayout = ({ children }: any) => {
+  return (
+    <div id="layout-main">
+      <SliderMenu />
+      {children}
+    </div>
+  )
 }
 
 export default MainLayout

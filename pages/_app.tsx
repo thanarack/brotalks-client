@@ -7,7 +7,6 @@ import * as dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import '../styles/globals.css'
 import 'dayjs/locale/th'
-import App from 'next/app'
 
 // Enable dayjs and relativeTime plugin.
 dayjs.extend(relativeTime)

@@ -9,6 +9,7 @@ import Navbar from '../Navbar'
 // import PostsList from '../Post/postsList'
 import TopMenu from '../TopMenu'
 import { RootState } from '../../store'
+import MainSection from '../Layout/MainSection'
 
 const Post: NextPage = (props) => {
   const { t } = useTranslation()
@@ -21,9 +22,9 @@ const Post: NextPage = (props) => {
         <title>Post</title>
       </Head>
       <div className="w-full">{theme.isNavbar && <Navbar />}</div>
-      <main>
+      <MainSection>
         <div></div>
-      </main>
+      </MainSection>
     </MainLayout>
   )
 }

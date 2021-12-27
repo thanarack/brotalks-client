@@ -1,6 +1,9 @@
+import classNames from 'classnames'
+import React from 'react'
+
 const LoadingPost = (props: any) => {
   return (
-    <div className="w-full mx-auto">
+    <div className={classNames(props.className, 'w-full mx-auto')}>
       <div className="animate-pulse flex flex-col">
         <div className="flex flex-row space-x-4">
           <div className="rounded-full bg-slate-300 h-10 w-10"></div>
@@ -23,4 +26,4 @@ const LoadingPost = (props: any) => {
   )
 }
 
-export default LoadingPost
+export default React.memo(LoadingPost)

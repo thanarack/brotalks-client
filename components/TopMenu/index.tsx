@@ -14,13 +14,18 @@ const topMenuList = [
   { id: 4, title: 'หวยเด็ด' },
 ]
 
-const TopMenu = ({ props }: any) => {
+const TopMenu = (props: any) => {
   // Get theme from redux store.
   const topMenuStore = useSelector((state: RootState) => state.topMenu)
   const dispatch = useDispatch()
 
   return (
-    <div className="w-full bg-slate-100 pb-2 px-4 pt-1 border-b border-slate-200 static">
+    <div
+      className={classnames(
+        props?.className,
+        'w-full bg-slate-100 pb-2 px-4 pt-1 border-b border-slate-200 static'
+      )}
+    >
       <ScrollContainer className="scroll-container">
         <div className="w-full flex flex-row space-x-6 topmenu min-w-full">
           {topMenuList.map((slideContent, index) => (
@@ -43,4 +48,5 @@ const TopMenu = ({ props }: any) => {
     </div>
   )
 }
+
 export default React.memo(TopMenu)
