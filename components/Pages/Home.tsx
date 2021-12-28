@@ -52,6 +52,7 @@ const Home: NextPage = (props) => {
   const route = useRouter()
 
   if (process.browser) {
+    route.prefetch('/user')
     route.prefetch('/compose')
     route.prefetch('/post')
   }
