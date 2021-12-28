@@ -95,13 +95,14 @@ const SliderMenu = () => {
         isOpen={topMenu.isSlide}
         customBurgerIcon={false}
         right
+        disableAutoFocus
         styles={styles}
         itemListElement="div"
         width={280}
         onOpen={() => dispatch(onShowSlide(true))}
         onClose={() => dispatch(onShowSlide(false))}
       >
-        <h3 className="absolute top-0 pt-1 leading-8 text-lg">
+        <h3 className="absolute top-0 pt-1 leading-8 text-lg text-white">
           ข้อมูลผู้ใช้งาน
         </h3>
         <div className="slide-profile w-full flex flex-col justify-center items-center py-4 space-y-1 pb-8">
@@ -114,19 +115,19 @@ const SliderMenu = () => {
               alt="Profile"
             />
           </div>
-          <h4 className="text-base">{user.user?.name}</h4>
+          <h4 className="text-base text-white">{user.user?.name}</h4>
           <div className="flex flex-row space-x-8 pt-3">
             <div className="space-x-1 flex flex-col text-center space-y-1">
-              <span className="text-base">
+              <h4 className="text-base text-white">
                 {kFormatter(user.user?.count?.follow || 0)}
-              </span>
-              <span className="text-sm">การติดตาม</span>
+              </h4>
+              <h5 className="text-sm text-white">การติดตาม</h5>
             </div>
             <div className="space-x-1 flex flex-col text-center space-y-1">
-              <span className="text-base">
+              <h4 className="text-base text-white">
                 {kFormatter(user.user?.count?.followers || 0)}
-              </span>
-              <span className="text-sm">ผู้ติดตาม</span>
+              </h4>
+              <h5 className="text-sm text-white">ผู้ติดตาม</h5>
             </div>
           </div>
         </div>
@@ -135,7 +136,7 @@ const SliderMenu = () => {
             {slideMenu.map((value: any, index: any) => (
               <li key={index}>
                 <Link href={value.href} passHref>
-                  <a className="text-base">{value.title}</a>
+                  <a className="text-base text-white">{value.title}</a>
                 </Link>
               </li>
             ))}

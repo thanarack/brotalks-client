@@ -17,6 +17,10 @@ const Navbar = ({ props }: any) => {
   // Get theme from redux store.
   // const theme = useSelector((state:RootState) => state.theme)
 
+  const onUserIcon = () => {
+    dispatch(onShowSlide(true))
+  }
+
   return (
     <div className="fixed w-full px-4 py-4 flex flex-row space-x-4 items-center bg-slate-100 top-0 z-20">
       <div className="h-8">
@@ -37,7 +41,7 @@ const Navbar = ({ props }: any) => {
           </a>
         </Link>
       </div>
-      <div onClick={() => dispatch(onShowSlide(true))}>
+      <div onClick={onUserIcon}>
         <UserCircleIcon className="h-6 w-6 text-gray-800" />
       </div>
     </div>
