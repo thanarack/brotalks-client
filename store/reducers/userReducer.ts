@@ -22,6 +22,10 @@ export interface UserProfileInterface {
 
 const initialState: UserReducer = {
   isAuth: false,
+  user: {
+    id: '1234',
+    name: 'Thanarak Chaisri',
+  },
 }
 
 export const userReducer = createSlice({

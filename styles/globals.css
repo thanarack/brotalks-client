@@ -23,3 +23,7 @@
 .bm-overlay {
   top: 0;
 }
+
+.slide-profile {
+  display: flex !important;
+}

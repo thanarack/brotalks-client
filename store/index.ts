@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit'
 import postsReducer from './reducers/postsReducer'
 import themeReducer from './reducers/themeReducer'
 import topMenuReducer from './reducers/topMenuReducer'
+import userReducer from './reducers/userReducer'
 
 export const store = configureStore({
   reducer: {
     theme: themeReducer,
     topMenu: topMenuReducer,
     posts: postsReducer,
+    user: userReducer,
   },
 })
 
