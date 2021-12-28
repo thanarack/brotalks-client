@@ -116,14 +116,14 @@ const SliderMenu = () => {
             />
           </div>
           <h4 className="text-base text-white">{user.user?.name}</h4>
-          <div className="flex flex-row space-x-8 pt-3">
-            <div className="space-x-1 flex flex-col text-center space-y-1">
+          <div className="flex flex-row justify-evenly w-full pt-3">
+            <div className="flex flex-col text-center space-y-1">
               <h4 className="text-base text-white">
                 {kFormatter(user.user?.count?.follow || 0)}
               </h4>
               <h5 className="text-sm text-white">การติดตาม</h5>
             </div>
-            <div className="space-x-1 flex flex-col text-center space-y-1">
+            <div className="flex flex-col text-center space-y-1">
               <h4 className="text-base text-white">
                 {kFormatter(user.user?.count?.followers || 0)}
               </h4>

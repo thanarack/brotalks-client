@@ -25,6 +25,10 @@ const initialState: UserReducer = {
   user: {
     id: '1234',
     name: 'Thanarak Chaisri',
+    count: {
+      follow: 4351,
+      followers: 34225
+    }
   },
 }
 

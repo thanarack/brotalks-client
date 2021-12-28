@@ -7,7 +7,7 @@ const kFormatter = (value: number) => {
     }
     return numeral(value).format('0.0a')
   }
-  return value
+  return value || 0
 }
 
 export { kFormatter }
