@@ -8,6 +8,12 @@ import { kFormatter } from '../../utilize/kFormatter'
 
 const slideMenu = [
   {
+    title: 'ฟีด',
+    keyName: 'feed',
+    isAuth: true,
+    href: '/',
+  },
+  {
     title: 'โปรไฟล์',
     keyName: 'profile',
     isAuth: true,
@@ -81,7 +87,7 @@ const SliderMenu = () => {
   const topMenu = store.topMenu
   const user = store.user
   const userLinkProfile = `/user/${user.user?.id}`
-  slideMenu[0].href = userLinkProfile
+  slideMenu[1].href = userLinkProfile
 
   return (
     <div className="h-full">
@@ -95,7 +101,9 @@ const SliderMenu = () => {
         onOpen={() => dispatch(onShowSlide(true))}
         onClose={() => dispatch(onShowSlide(false))}
       >
-        <h3 className="absolute top-0 pt-1 leading-8 text-lg">ข้อมูลผู้ใช้งาน</h3>
+        <h3 className="absolute top-0 pt-1 leading-8 text-lg">
+          ข้อมูลผู้ใช้งาน
+        </h3>
         <div className="slide-profile w-full flex flex-col justify-center items-center py-4 space-y-1 pb-8">
           <div>
             <Image
@@ -108,12 +116,16 @@ const SliderMenu = () => {
           </div>
           <h4 className="text-base">{user.user?.name}</h4>
           <div className="flex flex-row space-x-8 pt-3">
-            <div className='space-x-1 flex flex-col text-center space-y-1'>
-              <span className="text-base">{kFormatter(user.user?.count?.follow || 0)}</span>
+            <div className="space-x-1 flex flex-col text-center space-y-1">
+              <span className="text-base">
+                {kFormatter(user.user?.count?.follow || 0)}
+              </span>
               <span className="text-sm">การติดตาม</span>
             </div>
-            <div className='space-x-1 flex flex-col text-center space-y-1'>
-              <span className="text-base">{kFormatter(user.user?.count?.followers || 0)}</span>
+            <div className="space-x-1 flex flex-col text-center space-y-1">
+              <span className="text-base">
+                {kFormatter(user.user?.count?.followers || 0)}
+              </span>
               <span className="text-sm">ผู้ติดตาม</span>
             </div>
           </div>
