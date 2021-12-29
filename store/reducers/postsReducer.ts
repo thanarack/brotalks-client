@@ -6,6 +6,7 @@ export interface ItemsReducer {
   hasNextPage: boolean
   isNextPageLoading: boolean
   fullPostIndex: Array<[string | number]> // Keep data id that user clicked readmore.
+  total: number
 }
 
 const initialState: ItemsReducer = {
@@ -13,6 +14,7 @@ const initialState: ItemsReducer = {
   hasNextPage: true,
   isNextPageLoading: false,
   fullPostIndex: [],
+  total: 10
 }
 
 export const postsReducer = createSlice({

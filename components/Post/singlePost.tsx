@@ -22,6 +22,7 @@ import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { onFullPostIndex } from '../../store/reducers/postsReducer'
+import ImageModule from './modules/imageModule'
 
 export interface SinglePostInterface {
   postIndex: string | number
@@ -36,14 +37,15 @@ export interface SinglePostDataInterface {
   id: string
   postType: string
   post: {
-    postContent: string
-    postDate: string
+    content: string
+    date: string
+    images?: Array<[]>
   }
   user: {
-    userName: string
-    userId: string
-    userSlug: string
-    userAvatar: string
+    name: string
+    id: string
+    slug: string
+    avatar: string
   }
   counts: {
     like: number
@@ -94,7 +96,7 @@ const SinglePost = (props: SinglePostInterface) => {
     // }
     function calculateHeightOfPost() {
       const maxWords = 126
-      const textContent = data.post.postContent || ''
+      const textContent = data.post.content || ''
       const postLength = textContent?.length ?? 0
       if (process.browser && postLength > maxWords) {
         // Manapulate texts
@@ -105,14 +107,17 @@ const SinglePost = (props: SinglePostInterface) => {
             .concat('...') || ''
         setShortPost(tempShortPost)
         setIsShortPost(true)
+      } else {
+        setIsShortPost(false)
       }
     }
     if (initialShortPost) {
       calculateHeightOfPost()
     }
     if (!fullPost) {
-      setFullPost(data.post.postContent)
+      setFullPost(data.post.content)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   /**
@@ -121,10 +126,6 @@ const SinglePost = (props: SinglePostInterface) => {
    */
   const showFullPost = () => {
     if (isShortPost) {
-      // warpTextRef.current.textContent = fullPost
-      // if (postDocument) {
-
-      // }
       setIsShortPost(false)
       dispatch(onFullPostIndex(data.id))
     }
@@ -201,16 +202,16 @@ const SinglePost = (props: SinglePostInterface) => {
         <div className="flex flex-col">
           <div className="flex flex-row space-x-1">
             <h3 className="text-base leading-4 text-slate-800 font-semibold">
-              {data.user.userName}
+              {data.user.name}
             </h3>
             <div id="user-id">
               <h3 className="text-base leading-4 text-slate-500 font-normal">
-                {data.user.userSlug}
+                {data.user.slug}
               </h3>
             </div>
           </div>
           <h4 className="text-xs leading-6 text-slate-500">
-            {timeAgo(data.post.postDate)}
+            {timeAgo(data.post.date)}
           </h4>
         </div>
       </div>
@@ -235,6 +236,7 @@ const SinglePost = (props: SinglePostInterface) => {
             </span>
           )}
         </div>
+        <ImageModule data={data} />
       </div>
       <div id="action-post" className="flex flex-row px-4 pb-4 space-x-6">
         <div id="like">
