@@ -13,6 +13,7 @@ import { onShowSlide } from '../../store/reducers/topMenuReducer'
 const Navbar = ({ props }: any) => {
   const store = useSelector((state: RootState) => state)
   const topMenu = store.topMenu
+  const user = store.user
   const dispatch = useDispatch()
   // Get theme from redux store.
   // const theme = useSelector((state:RootState) => state.theme)
@@ -41,9 +42,11 @@ const Navbar = ({ props }: any) => {
           </a>
         </Link>
       </div>
-      <div onClick={onUserIcon}>
-        <UserCircleIcon className="h-6 w-6 text-gray-800" />
-      </div>
+      {user.isAuth && (
+        <div onClick={onUserIcon}>
+          <UserCircleIcon className="h-6 w-6 text-gray-800" />
+        </div>
+      )}
     </div>
   )
 }

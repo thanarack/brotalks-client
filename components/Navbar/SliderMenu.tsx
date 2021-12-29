@@ -4,6 +4,7 @@ import { slide as Menu } from 'react-burger-menu'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import { onShowSlide } from '../../store/reducers/topMenuReducer'
+import { onLogout } from '../../store/reducers/userReducer'
 import { kFormatter } from '../../utilize/kFormatter'
 
 const slideMenu = [
@@ -133,13 +134,25 @@ const SliderMenu = () => {
         </div>
         <div className="block w-full">
           <ul className="flex flex-col space-y-4">
-            {slideMenu.map((value: any, index: any) => (
-              <li key={index}>
-                <Link href={value.href} passHref>
-                  <a className="text-base text-white">{value.title}</a>
-                </Link>
-              </li>
-            ))}
+            {slideMenu.map((value: any, index: any) => {
+              if (value.href === '/logout') {
+                return (
+                  <li key={index} onClick={() => dispatch(onLogout())}>
+                    <a href="#" className="text-base text-white">
+                      {value.title}
+                    </a>
+                  </li>
+                )
+              } else {
+                return (
+                  <li key={index}>
+                    <Link href={value.href} passHref>
+                      <a className="text-base text-white">{value.title}</a>
+                    </Link>
+                  </li>
+                )
+              }
+            })}
           </ul>
         </div>
       </Menu>

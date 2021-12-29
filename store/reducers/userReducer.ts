@@ -1,4 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { store } from '..'
+import { onShowSlide } from './topMenuReducer'
 
 export interface UserReducer {
   isAuth: boolean
@@ -21,14 +23,14 @@ export interface UserProfileInterface {
 }
 
 const initialState: UserReducer = {
-  isAuth: false,
+  isAuth: true,
   user: {
     id: '1234',
     name: 'Thanarak Chaisri',
     count: {
       follow: 4351,
-      followers: 34225
-    }
+      followers: 34225,
+    },
   },
 }
 
@@ -39,9 +41,15 @@ export const userReducer = createSlice({
     onAuth: (state, action: PayloadAction<boolean>) => {
       state.isAuth = action.payload
     },
+    onLogout: (state) => {
+      if (state.isAuth) {
+        state.isAuth = false
+        state.user = { id: '', name: '' }
+      }
+    },
   },
 })
 
-export const { onAuth } = userReducer.actions
+export const { onAuth, onLogout } = userReducer.actions
 
 export default userReducer.reducer

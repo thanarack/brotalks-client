@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Device, Theme } from '../../constants'
+import { onLogout } from './userReducer'
 
 export interface TopMenuReducer {
   activeTab: string | number
@@ -21,6 +22,11 @@ export const topMenuReducer = createSlice({
     onShowSlide: (state, action: PayloadAction<boolean>) => {
       state.isSlide = action.payload
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(onLogout, (state, action) => {
+      state.isSlide = false
+    })
   },
 })
 
