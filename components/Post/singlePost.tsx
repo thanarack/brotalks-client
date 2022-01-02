@@ -23,6 +23,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { onFullPostIndex } from '../../store/reducers/postsReducer'
 import ImageModule from './modules/imageModule'
+import VideoModule from './modules/videoModule'
 
 export interface SinglePostInterface {
   postIndex: string | number
@@ -236,7 +237,8 @@ const SinglePost = (props: SinglePostInterface) => {
             </span>
           )}
         </div>
-        <ImageModule data={data} />
+        {data.postType === 'video' && <VideoModule data={data} />}
+        {data.postType === 'image' && <ImageModule data={data} />}
       </div>
       <div id="action-post" className="flex flex-row px-4 pb-4 space-x-6">
         <div id="like">

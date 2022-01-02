@@ -37,7 +37,7 @@ const mockPosts = {
   post: {
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    cate: '2021-12-25T10:05:46.384Z',
+    date: '2021-12-25T10:05:46.384Z',
   },
   isLiked: false,
 }
@@ -58,7 +58,7 @@ const mockPostsImage = {
   },
   post: {
     content: 'Image post',
-    cate: '2021-12-25T10:05:46.384Z',
+    date: '2021-12-25T10:05:46.384Z',
     images: [
       'https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1469&q=80',
     ],
@@ -68,7 +68,7 @@ const mockPostsImage = {
 
 const mockPostsImage2 = {
   id: '3',
-  postType: 'image',
+  postType: 'video',
   user: {
     name: 'News Update',
     id: '99123223432',
@@ -82,11 +82,14 @@ const mockPostsImage2 = {
   },
   post: {
     content: 'More than 2 image',
-    cate: '2021-12-25T10:05:46.384Z',
+    date: '2021-12-25T10:05:46.384Z',
     images: [
       'https://images.unsplash.com/photo-1640645295115-25ef3a67a2ef?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
       'https://pbs.twimg.com/media/FHnYlOdVgAUlEB4?format=jpg&name=small',
     ],
+    video: {
+      source: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8',
+    },
   },
   isLiked: false,
 }
@@ -106,17 +109,22 @@ const mockPostsImage3 = {
     repost: 34,
   },
   post: {
-    content: 'More than 2 image',
-    cate: '2021-12-25T10:05:46.384Z',
+    content: 'More than 4 image',
+    date: '2021-12-25T10:05:46.384Z',
     images: [
       'https://pbs.twimg.com/media/FHnYlOdVgAUlEB4?format=jpg&name=small',
       'https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1469&q=80',
+      'https://pbs.twimg.com/media/FHnYlOdVgAUlEB4?format=jpg&name=small',
+      'https://pbs.twimg.com/media/FHnYlOdVgAUlEB4?format=jpg&name=small',
+      'https://pbs.twimg.com/media/FHnYlOdVgAUlEB4?format=jpg&name=small',
+      'https://pbs.twimg.com/media/FHnYlOdVgAUlEB4?format=jpg&name=small',
     ],
   },
   isLiked: false,
 }
 
 const multiplePost = [
+  mockPostsImage2,
   mockPosts,
   mockPostsImage,
   mockPostsImage2,

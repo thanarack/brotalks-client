@@ -128,6 +128,8 @@ const PostsListInfinity = (props: PostsListInfinityInterface) => {
         isItemLoaded={isItemLoaded}
         itemCount={itemCount}
         loadMoreItems={loadMoreItems}
+        // minimumBatchSize={30}
+        threshold={30}
       >
         {({ onItemsRendered, ref }: any) => {
           return (
@@ -136,6 +138,7 @@ const PostsListInfinity = (props: PostsListInfinityInterface) => {
               itemCount={itemCount}
               itemSize={getRowHeight}
               onItemsRendered={onItemsRendered}
+              overscanCount={5}
               ref={(list) => {
                 // Pass List ref through to InfiniteLoader
                 ref(list)
