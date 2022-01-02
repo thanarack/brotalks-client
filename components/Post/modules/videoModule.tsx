@@ -19,34 +19,32 @@ const VideoModule = ({ data, className }: VideoModuleInterface) => {
 
   useEffect(() => {
     // Set up video
-    if (process.browser && Hls.isSupported()) {
+    if (process.browser && Hls.isSupported() && isPlay && videoId) {
       const video = document.getElementById(videoId) as HTMLMediaElement
       // video.preload = 'none'
-      if (isPlay) {
-        let hls = new Hls({
-          enableWorker: true,
-          maxBufferLength: 1,
-          liveBackBufferLength: 0,
-          liveSyncDuration: 0,
-          liveMaxLatencyDuration: 5,
-          liveDurationInfinity: true,
-          highBufferWatchdogPeriod: 1,
-          lowLatencyMode: true,
-          backBufferLength: 90,
-        })
-        hls.loadSource('https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8')
-        // hls.loadSource('https://cdn.jwplayer.com/manifests/pZxWPRg4.m3u8')
-        hls.attachMedia(video)
-        // console.log(hls.media?.clientHeight)
-        // hls.autoLevelEnable
-        hls.on(Hls.Events.MANIFEST_PARSED, () => {
-          // eslint-disable-next-line react-hooks/exhaustive-deps
-          video.play()
-          console.log('Play')
-          // setVideoGlobal(video)
-          // video.load
-        })
-      }
+      let hls = new Hls({
+        enableWorker: true,
+        maxBufferLength: 1,
+        liveBackBufferLength: 0,
+        liveSyncDuration: 0,
+        liveMaxLatencyDuration: 5,
+        liveDurationInfinity: true,
+        highBufferWatchdogPeriod: 1,
+        lowLatencyMode: true,
+        backBufferLength: 90,
+      })
+      hls.loadSource('https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8')
+      // hls.loadSource('https://cdn.jwplayer.com/manifests/pZxWPRg4.m3u8')
+      hls.attachMedia(video)
+      // console.log(hls.media?.clientHeight)
+      // hls.autoLevelEnable
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        video.play()
+        console.log('Play')
+        // setVideoGlobal(video)
+        // video.load
+      })
     }
   }, [isPlay, videoId])
 
