@@ -101,6 +101,7 @@ const VideoModule = ({ data, className }: VideoModuleInterface) => {
         ref={videoRef}
         className="flex flex-col justify-center items-center h-full w-10/12 relative"
       >
+        {/* Show the button when video not load yet */}
         {!isStartPlay && !isReady && (
           <div className="w-full h-full relative z-10">
             <div onClick={onStartPlay} role="button">
@@ -124,6 +125,7 @@ const VideoModule = ({ data, className }: VideoModuleInterface) => {
             </div>
           </div>
         )}
+        {/* Inital load video tag */}
         <div
           className={classNames('w-full', {
             'opacity-0 absolute top-0 z-0': !isReady && !isStartPlay,
