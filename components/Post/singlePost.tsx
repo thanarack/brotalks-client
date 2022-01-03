@@ -24,6 +24,7 @@ import { useRouter } from 'next/router'
 import { onFullPostIndex } from '../../store/reducers/postsReducer'
 import ImageModule from './modules/imageModule'
 import VideoModule from './modules/videoModule'
+import { onPlayVideoId } from '../../store/reducers/videoReducer'
 
 export interface SinglePostInterface {
   postIndex: string | number
@@ -136,6 +137,11 @@ const SinglePost = (props: SinglePostInterface) => {
     return
   }
 
+  const playVideo = (videoId) => {
+    console.log(videoId)
+    dispatch(onPlayVideoId(videoId))
+  }
+
   /**
    * Handle on click like button.
    * @return    {null}
@@ -240,7 +246,7 @@ const SinglePost = (props: SinglePostInterface) => {
             </span>
           )}
         </div>
-        {data.postType === 'video' && <VideoModule data={data} />}
+        {data.postType === 'video' && <VideoModule data={data} playVideo={playVideo} />}
         {data.postType === 'image' && <ImageModule data={data} />}
       </div>
       <div id="action-post" className="flex flex-row px-4 pb-4 space-x-6">

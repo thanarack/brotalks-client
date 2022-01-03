@@ -95,7 +95,7 @@ const mockPostsImage2 = {
 }
 
 const mockPostsImage8 = {
-  id: '3',
+  id: '4',
   postType: 'video',
   user: {
     name: 'News Update',
@@ -123,7 +123,7 @@ const mockPostsImage8 = {
 }
 
 const mockPostsImage6 = {
-  id: '3',
+  id: '5',
   postType: 'video',
   user: {
     name: 'News Update',
@@ -151,7 +151,7 @@ const mockPostsImage6 = {
 }
 
 const mockPostsImage3 = {
-  id: '4',
+  id: '6',
   postType: 'video',
   user: {
     name: 'News Update',

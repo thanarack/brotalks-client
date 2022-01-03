@@ -14,7 +14,7 @@ const initialState: ItemsReducer = {
   hasNextPage: true,
   isNextPageLoading: false,
   fullPostIndex: [],
-  total: 10
+  total: 2,
 }
 
 export const postsReducer = createSlice({

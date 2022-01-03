@@ -2,15 +2,19 @@
 import classNames from 'classnames'
 import Hls from 'hls.js'
 import React, { useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { generateIds } from '../../../utilize/generateIds'
 import { ChevronRightIcon } from '@heroicons/react/outline'
 import { SinglePostDataInterface } from '../singlePost'
+import { RootState } from '../../store'
 import styled from 'styled-components'
 import Image from 'next/image'
+import { onPlayVideoId } from '../../../store/reducers/videoReducer'
 
 interface VideoModuleInterface {
   data: SinglePostDataInterface
   className?: string
+  playVideo?: Function
 }
 
 const BlockImagePreview = styled.div<{
@@ -31,11 +35,14 @@ const BlockImagePreview = styled.div<{
   width: 100%;
 `
 
-const VideoModule = ({ data, className }: VideoModuleInterface) => {
+const VideoModule = ({ data, className, playVideo }: VideoModuleInterface) => {
   // const [heightOfVideo, setHeightOfVideo] = useRef(214) // Default height video
+  const dispatch = useDispatch()
+  const generateIdVideo = generateIds()
+  // const store = useSelector((state: RootState) => state)
   const videoRef = useRef<HTMLDivElement>(null)
   const [imgHeight, setImgHeight] = useState(0)
-  const [videoId, setVideoId] = useState(`video-${data.id}-${generateIds()}`)
+  const [videoId, setVideoId] = useState(`video-${data.id}-${generateIdVideo}`)
   const [isReady, setIsReady] = useState(false)
   const [isStartPlay, setIsStartPlay] = useState(false)
   // const [videoGlobal, setVideoGlobal] = useState<HTMLMediaElement | undefined>(undefined)
@@ -70,6 +77,7 @@ const VideoModule = ({ data, className }: VideoModuleInterface) => {
       // hls.autoLevelEnable
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
+        stopPreviosVideo()
         video.play()
         setIsReady(true)
         console.log('Play')
@@ -77,18 +85,32 @@ const VideoModule = ({ data, className }: VideoModuleInterface) => {
         // video.load
       })
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isStartPlay])
 
-  // useEffect(() => {
-  //   if (videoRef.current) {
-  //     setHeightOfVideo(214)
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [videoRef.current])
+  useEffect(() => {
+    if (isReady) {
+      // dispatch(onPlayVideoId('1'))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isReady])
+
+  const stopPreviosVideo = () => {
+    // Stop previous video.
+    const videoIdPrevios = window.localStorage.getItem('playvideoid')
+    const video = document.getElementById(videoIdPrevios) as HTMLMediaElement
+    if (videoIdPrevios && video) {
+      video.pause()
+    }
+  }
 
   const onStartPlay = () => {
     setIsStartPlay(true)
+    // playVideo(generateIdVideo)
+    console.log(videoId)
+    stopPreviosVideo()
+    // Set new video id
+    window.localStorage.setItem('playvideoid', videoId)
   }
 
   if (!data.post?.video?.source) {

@@ -35,4 +35,4 @@ const ResizePost = (props: any) => {
   return <div ref={target}>{props.children}</div>
 }
 
-export default ResizePost
+export default React.memo(ResizePost)
