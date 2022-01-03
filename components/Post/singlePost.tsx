@@ -41,6 +41,9 @@ export interface SinglePostDataInterface {
     content: string
     date: string
     images?: Array<[]>
+    video?: {
+      source: string
+    }
   }
   user: {
     name: string

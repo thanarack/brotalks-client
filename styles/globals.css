@@ -27,3 +27,9 @@
 .slide-profile {
   display: flex !important;
 }
+
+.player-icon {
+  position: absolute;
+  top: calc(50%-64px);
+  left: calc(50%-64px);
+}

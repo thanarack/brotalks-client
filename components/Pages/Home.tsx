@@ -88,7 +88,63 @@ const mockPostsImage2 = {
       'https://pbs.twimg.com/media/FHnYlOdVgAUlEB4?format=jpg&name=small',
     ],
     video: {
-      source: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8',
+      source: 'avatar',
+    },
+  },
+  isLiked: false,
+}
+
+const mockPostsImage8 = {
+  id: '3',
+  postType: 'video',
+  user: {
+    name: 'News Update',
+    id: '99123223432',
+    avatar: 'test',
+    slug: '@newsofficial',
+  },
+  counts: {
+    like: 123,
+    comments: 342,
+    repost: 34,
+  },
+  post: {
+    content: 'More than 2 image',
+    date: '2021-12-25T10:05:46.384Z',
+    images: [
+      'https://images.unsplash.com/photo-1640645295115-25ef3a67a2ef?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
+      'https://pbs.twimg.com/media/FHnYlOdVgAUlEB4?format=jpg&name=small',
+    ],
+    video: {
+      source: 'kai',
+    },
+  },
+  isLiked: false,
+}
+
+const mockPostsImage6 = {
+  id: '3',
+  postType: 'video',
+  user: {
+    name: 'News Update',
+    id: '99123223432',
+    avatar: 'test',
+    slug: '@newsofficial',
+  },
+  counts: {
+    like: 123,
+    comments: 342,
+    repost: 34,
+  },
+  post: {
+    content: 'More than 2 image',
+    date: '2021-12-25T10:05:46.384Z',
+    images: [
+      'https://images.unsplash.com/photo-1640645295115-25ef3a67a2ef?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
+      'https://pbs.twimg.com/media/FHnYlOdVgAUlEB4?format=jpg&name=small',
+    ],
+    video: {
+      source: 'naruto',
     },
   },
   isLiked: false,
@@ -96,7 +152,7 @@ const mockPostsImage2 = {
 
 const mockPostsImage3 = {
   id: '4',
-  postType: 'image',
+  postType: 'video',
   user: {
     name: 'News Update',
     id: '99123223432',
@@ -111,21 +167,18 @@ const mockPostsImage3 = {
   post: {
     content: 'More than 4 image',
     date: '2021-12-25T10:05:46.384Z',
-    images: [
-      'https://pbs.twimg.com/media/FHnYlOdVgAUlEB4?format=jpg&name=small',
-      'https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1469&q=80',
-      'https://pbs.twimg.com/media/FHnYlOdVgAUlEB4?format=jpg&name=small',
-      'https://pbs.twimg.com/media/FHnYlOdVgAUlEB4?format=jpg&name=small',
-      'https://pbs.twimg.com/media/FHnYlOdVgAUlEB4?format=jpg&name=small',
-      'https://pbs.twimg.com/media/FHnYlOdVgAUlEB4?format=jpg&name=small',
-    ],
+    video: {
+      source: 'lisa',
+    },
   },
   isLiked: false,
 }
 
 const multiplePost = [
   mockPostsImage2,
+  mockPostsImage8,
   mockPosts,
+  mockPostsImage6,
   mockPostsImage,
   mockPostsImage2,
   mockPostsImage3,

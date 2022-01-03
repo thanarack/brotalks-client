@@ -1,26 +1,53 @@
+/* eslint-disable @next/next/no-img-element */
 import classNames from 'classnames'
 import Hls from 'hls.js'
 import React, { useEffect, useRef, useState } from 'react'
 import { generateIds } from '../../../utilize/generateIds'
 import { ChevronRightIcon } from '@heroicons/react/outline'
 import { SinglePostDataInterface } from '../singlePost'
+import styled from 'styled-components'
+import Image from 'next/image'
 
 interface VideoModuleInterface {
   data: SinglePostDataInterface
   className?: string
 }
 
+const BlockImagePreview = styled.div<{
+  src: string
+  cover?: boolean
+  height?: number
+}>`
+  background: ${(props: any) => (props.src ? 'url(' + props.src + ')' : '')};
+  background-size: ${(props: any) => (props.cover ? 'cover' : 'contain')};
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: rgba(0, 0, 0, 0);
+  min-height: ${(props: any) => (props.height ? props.height + 'px' : '')};
+  disstartplay: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`
+
 const VideoModule = ({ data, className }: VideoModuleInterface) => {
-  const [heightOfVideo, setHeightOfVideo] = useState(214) // Default height video
+  // const [heightOfVideo, setHeightOfVideo] = useRef(214) // Default height video
   const videoRef = useRef<HTMLDivElement>(null)
+  const [imgHeight, setImgHeight] = useState(0)
   const [videoId, setVideoId] = useState(`video-${data.id}-${generateIds()}`)
-  const [isPlay, setIsPlay] = useState(false)
+  const [isReady, setIsReady] = useState(false)
+  const [isStartPlay, setIsStartPlay] = useState(false)
   // const [videoGlobal, setVideoGlobal] = useState<HTMLMediaElement | undefined>(undefined)
+  const imageId = useRef<any>()
+  const urlVideo = `http://localhost:3000/mock/${data.post?.video?.source}/playlist.m3u8`
+  const urlPreviewImage = `http://localhost:3000/mock/${data.post?.video?.source}/hd.jpg`
 
   useEffect(() => {
     // Set up video
-    if (process.browser && Hls.isSupported() && isPlay && videoId) {
+    if (process.browser && Hls.isSupported() && isStartPlay) {
       const video = document.getElementById(videoId) as HTMLMediaElement
+      const mywindow: Window | any = window
       // video.preload = 'none'
       let hls = new Hls({
         enableWorker: true,
@@ -32,21 +59,26 @@ const VideoModule = ({ data, className }: VideoModuleInterface) => {
         highBufferWatchdogPeriod: 1,
         lowLatencyMode: true,
         backBufferLength: 90,
+        fLoader: mywindow?.peer5 && mywindow?.peer5?.HlsJsFragmentLoader,
+        pLoader: mywindow?.peer5 && mywindow?.peer5?.HlsJsPlaylistLoader,
       })
-      hls.loadSource('https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8')
+      // hls.loadSource('https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8')
       // hls.loadSource('https://cdn.jwplayer.com/manifests/pZxWPRg4.m3u8')
+      hls.loadSource(urlVideo)
       hls.attachMedia(video)
       // console.log(hls.media?.clientHeight)
       // hls.autoLevelEnable
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         video.play()
+        setIsReady(true)
         console.log('Play')
         // setVideoGlobal(video)
         // video.load
       })
     }
-  }, [isPlay, videoId])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isStartPlay])
 
   // useEffect(() => {
   //   if (videoRef.current) {
@@ -55,27 +87,55 @@ const VideoModule = ({ data, className }: VideoModuleInterface) => {
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [videoRef.current])
 
+  const onStartPlay = () => {
+    setIsStartPlay(true)
+  }
+
+  if (!data.post?.video?.source) {
+    return null
+  }
+
   return (
     <div className="w-full px-4 pt-2">
       <div
         ref={videoRef}
-        style={{ minHeight: heightOfVideo + 'px' }}
-        className="flex flex-col justify-center items-center h-full"
+        className="flex flex-col justify-center items-center h-full w-10/12 relative"
       >
-        {!isPlay && (
-          <div className="w-full h-full relative">
-            <div
-              onClick={() => setIsPlay(true)}
-              style={{ minHeight: heightOfVideo + 'px' }}
-              className="bg-black rounded-2xl flex flex-col justify-center items-center"
-            >
-              <ChevronRightIcon className="w-16 h-16 text-blue-500 border-4 border-blue-500 rounded-full" />
+        {!isStartPlay && !isReady && (
+          <div className="w-full h-full relative z-10">
+            <div onClick={onStartPlay} role="button">
+              <BlockImagePreview
+                src={urlPreviewImage}
+                cover
+                className="flex flex-col justify-center items-center overflow-hidden rounded-2xl"
+              >
+                <img
+                  src={urlPreviewImage}
+                  className="opacity-0"
+                  alt="video"
+                  ref={(ref: HTMLImageElement) => {
+                    if (ref && ref.offsetHeight) {
+                      setImgHeight(ref?.clientHeight)
+                    }
+                  }}
+                />
+                <ChevronRightIcon className="w-16 h-16 text-white border-4 bg-blue-600 border-white-500 rounded-full player-icon" />
+              </BlockImagePreview>
             </div>
           </div>
         )}
-        {isPlay && (
-          <video id={videoId} controls className="w-full rounded-2xl"></video>
-        )}
+        <div
+          className={classNames('w-full', {
+            'opacity-0 absolute top-0 z-0': !isReady && !isStartPlay,
+          })}
+        >
+          <video
+            id={videoId}
+            controls
+            style={{ minHeight: imgHeight }}
+            className="rounded-2xl"
+          />
+        </div>
       </div>
     </div>
   )
